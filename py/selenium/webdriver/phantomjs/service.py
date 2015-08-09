@@ -17,7 +17,7 @@
 import platform
 import subprocess
 import time
-
+import signal
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common import utils
 
@@ -104,6 +104,7 @@ class Service(object):
         try:
             if self.process:
                 self.process.stdin.close()
+                self.process.send_signal(signal.SIGTERM)
                 self.process.kill()
                 self.process.wait()
                 self.process = None
